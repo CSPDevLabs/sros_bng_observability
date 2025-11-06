@@ -2,7 +2,7 @@ name: sros_bngt
 
 mgmt:
   network: bngt
-  ipv4-subnet: 172.20.20.0/24
+  ipv4-subnet: 172.21.20.0/24
 
 topology:
   nodes:
@@ -13,14 +13,14 @@ topology:
       type: sr-1
       license: license.txt
       startup-config: configs/ne/agg.txt
-      mgmt-ipv4: 172.20.20.21
+      mgmt-ipv4: 172.21.20.21
       group: ne
     bng1:
       kind: nokia_sros
       image: registry.srlinux.dev/pub/vr-sros:24.7.R1
       type: sr-1s
       license: license.txt
-      mgmt-ipv4: 172.20.20.11
+      mgmt-ipv4: 172.21.20.11
       startup-config: configs/ne/bng1.txt 
       group: ne     
     bng2:
@@ -28,7 +28,7 @@ topology:
       image: registry.srlinux.dev/pub/vr-sros:24.7.R1
       type: sr-1s
       license: license.txt
-      mgmt-ipv4: 172.20.20.12
+      mgmt-ipv4: 172.21.20.12
       startup-config: configs/ne/bng2.txt
       group: ne
     core:
@@ -36,16 +36,16 @@ topology:
       image: registry.srlinux.dev/pub/vr-sros:24.7.R1
       type: sr-1s
       license: license.txt
-      mgmt-ipv4: 172.20.20.22
+      mgmt-ipv4: 172.21.20.22
       startup-config: configs/ne/core.txt
       group: ne
     
     # Infra services
     radius:
       kind: linux
-      image: harbor.nice.nokia.net/docker/freeradius/freeradius-server:3.2.3
+      image: freeradius/freeradius-server:3.2.3
       cmd: -X
-      mgmt-ipv4: 172.20.20.111
+      mgmt-ipv4: 172.21.20.111
       binds:
         - configs/radius/raddb/clients.conf:/etc/raddb/clients.conf
         - configs/radius/raddb/mods-config/files/authorize:/etc/raddb/mods-config/files/authorize
@@ -63,7 +63,7 @@ topology:
     # syslog-ng - collect syslog
     tel-syslog:
       kind: linux
-      image: harbor.nice.nokia.net/docker/linuxserver/syslog-ng:4.8.1-r1-ls153
+      image: linuxserver/syslog-ng:4.8.1-r1-ls153
       binds:
         - /etc/localtime:/etc/localtime:ro
         - configs/syslog-ng.conf:/config/syslog-ng.conf
@@ -71,7 +71,7 @@ topology:
       env:
         PUID: "0"
         PGID: "0"
-      mgmt-ipv4: 172.20.20.31
+      mgmt-ipv4: 172.21.20.31
       startup-delay: 10
       restart-policy: unless-stopped
     
@@ -80,7 +80,7 @@ topology:
     tel-pt:
       kind: linux
       image: grafana/promtail:3.4.3
-      mgmt-ipv4: 172.20.20.32
+      mgmt-ipv4: 172.21.20.32
       binds:
         - /etc/localtime:/etc/localtime:ro
         - configs/promtail.yml:/etc/promtail/config.yml
@@ -92,7 +92,7 @@ topology:
     tel-fb:
       kind: linux
       image: cr.fluentbit.io/fluent/fluent-bit:3.2.10
-      mgmt-ipv4: 172.20.20.33
+      mgmt-ipv4: 172.21.20.33
       binds:
         - configs/fluent-bit.ini:/fluent-bit/etc/fluent-bit.conf
       startup-delay: 20
@@ -102,35 +102,39 @@ topology:
     tel-loki:
       kind: linux
       image: grafana/loki:3.4.2
-      mgmt-ipv4: 172.20.20.34
+      mgmt-ipv4: 172.21.20.34
       binds:
         - configs/loki.yml:/etc/loki/local-config.yaml
-        - lokidata:/tmp/loki
+        - /tmp/lokidata:/loki
       cmd: -config.file=/etc/loki/local-config.yaml
       startup-delay: 20
       group: state
       restart-policy: unless-stopped
+      ports:
+        - 3100:3100      
 
     # Alertmanager with Telegram config, pls consider to update telegram_bot.token!
     tel-am:
       kind: linux
       image: quay.io/prometheus/alertmanager:v0.28.1
-      mgmt-ipv4: 172.20.20.35
+      mgmt-ipv4: 172.21.20.35
       env:
-        http_proxy: ${HTTP_PROXY} # Update with your proxy, if not direct access to the Internet
-        https_proxy: ${HTTPS_PROXY} # Update with your proxy, if not direct access to the Internet
+        # http_proxy: ${HTTP_PROXY} # Update with your proxy, if not direct access to the Internet
+        # https_proxy: ${HTTPS_PROXY} # Update with your proxy, if not direct access to the Internet
       binds:
         - configs/alertmanager.yml:/alertmanager.yml
         - configs/telegram_bot.token:/telegram_bot.token
       cmd: --config.file=/alertmanager.yml
       startup-delay: 30
       restart-policy: unless-stopped
-    
+      ports:
+        - 9093:9093
+
     # gNMIc to collect state data
     gnmic-state:
       kind: linux
-      mgmt-ipv4: 172.20.20.41
-      image: harbor.nice.nokia.net/ghcr/openconfig/gnmic:0.39.1
+      mgmt-ipv4: 172.21.20.41
+      image: ghcr.io/openconfig/gnmic:0.39.1
       binds:
         - configs/gnmic/gnmic-state.yml:/gnmic-config.yml:ro
       cmd: sub --config /gnmic-config.yml --log
@@ -143,7 +147,7 @@ topology:
     tel-sping:
       kind: linux
       image: quay.io/superq/smokeping-prober:v0.9.0
-      mgmt-ipv4: 172.20.20.36
+      mgmt-ipv4: 172.21.20.36
       binds:
         - configs/smokeping.yml:/smokeping.yml
         - /etc/hosts:/etc/hosts:ro
@@ -157,8 +161,8 @@ topology:
     # gNMIc to collect telemetry (metrics)
     gnmic-metrics:
       kind: linux
-      mgmt-ipv4: 172.20.20.42
-      image: harbor.nice.nokia.net/ghcr/openconfig/gnmic:0.39.1
+      mgmt-ipv4: 172.21.20.42
+      image: ghcr.io/openconfig/gnmic:0.39.1
       binds:
         - configs/gnmic/gnmic-metrics.yml:/gnmic-config.yml:ro
       cmd: sub --config /gnmic-config.yml --log
@@ -167,21 +171,25 @@ topology:
     tel-prom:
       kind: linux
       image: quay.io/prometheus/prometheus:v2.53.4
-      mgmt-ipv4: 172.20.20.37
+      mgmt-ipv4: 172.21.20.37
       binds:
         - configs/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
         - configs/prometheus/recording_rules/:/etc/prometheus/rules/:ro
         - /etc/localtime:/etc/localtime:ro
-        - promdata:/prometheus  # Replace with a path to simulate prometheus-data volume
+        - /tmp/promdata:/prometheus  # Replace with a path to simulate prometheus-data volume
       cmd: --config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus
       group: telemetry
       startup-delay: 40
+      ports:
+        - 9090:9090      
+
+
 
     # grafana
     tel-graf:
       kind: linux
       image: grafana/grafana:11.5.2
-      mgmt-ipv4: 172.20.20.38
+      mgmt-ipv4: 172.21.20.38
       binds:
         - configs/grafana/provisioning/datasources/datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml:ro
         - configs/grafana/provisioning/dashboards/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yaml:ro
@@ -191,11 +199,13 @@ topology:
         GF_AUTH_ANONYMOUS_ENABLED: "true"
         GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
         GF_AUTH_ANONYMOUS: "true"
-        http_proxy: ${HTTP_PROXY} # Update with your proxy, if not direct access to the Internet
-        https_proxy: ${HTTPS_PROXY} # Update with your proxy, if not direct access to the Internet
+        # http_proxy: ${HTTP_PROXY} # Update with your proxy, if not direct access to the Internet
+        # https_proxy: ${HTTPS_PROXY} # Update with your proxy, if not direct access to the Internet
         # Comma-separated list of plugin IDs to install
         GF_INSTALL_PLUGINS: 'andrewbmchugh-flow-panel'
       startup-delay: 60
+      ports:
+        - 3000:3000
 
   links:
     - endpoints: ["bngblaster:eth1", "agg:1/1/1"]
