@@ -360,7 +360,7 @@ configure {
     router "management" {
         radius {
             server "FREERADIUS" {
-                address 172.20.20.111
+                address 172.21.20.111
                 secret "kF7xSGHTx85cQ3cpvISo/o+C0rmqpVkipg== hash2"
                 accept-coa true
             }
