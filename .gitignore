@@ -5,3 +5,7 @@ clab-sros_bngt/
 lokidata/*
 promdata/*
 .TODO.md
+*.bak
+*.tar
+*.gz
+*lic*.txt

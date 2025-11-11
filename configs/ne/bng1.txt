@@ -97,7 +97,7 @@ configure {
             }
         }
         syslog "promtail" {
-            address 172.20.20.31
+            address 172.21.20.31
             facility local7
             severity info
             port 1514
@@ -948,7 +948,7 @@ configure {
                 }
                 local-user {
                     user "admin" {
-                        password "$2y$10$TQrZlpBDra86.qoexZUzQeBXDY1FcdDhGWdD9lLxMuFyPVSm0OGy6"
+                        password "$2y$10$o54xOZeJIbKM/dcTuXY7M.9qdWTkB8zGy7Q.lPJ/7mrRMuUWOqZJG"
                         restricted-to-home false
                         access {
                             console true
