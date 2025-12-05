@@ -368,7 +368,7 @@
           },
           "direction": "backward",
           "editorMode": "code",
-          "expr": "{job=\"gnmic-state\"} \n|= \"ipv4/ip-address\" \n| json prefix=\"prefix\" \n| json bngRouter=\"source\" \n| json address=\"updates[0].values.address\" \n| regexp `.*subscriber-id=(?P<subscriber_id>[^]]+)` \n| bngRouter = \"$bngRouter\" \n| subscriber_id = \"$subscriberUser\" \n| json subName=`[\"subscription-name\"]`\n| json time = \"time\" \n| line_format \"{{.time}} {{if contains \\\"on-change\\\" .subName}}(on-change){{end}}{{if contains \\\"sample\\\" .subName}}(sample){{end}} {{if .address}}{{.address}}{{else}}deleted{{end}}\"",
+          "expr": "{job=\"gnmic-state\"} \n|= \"ipv4/ip-address\" \n| json prefix=\"prefix\" \n| json bngRouter=\"source\" \n| json address=\"updates[0].values.address\" \n| regexp `.*subscriber-id=(?P<subscriber_id>[^]]+)` \n| bngRouter =~ \".*$bngRouter.*\" \n| subscriber_id = \"$subscriberUser\" \n| json subName=`[\"subscription-name\"]`\n| json time = \"time\" \n| line_format \"{{.time}} {{if contains \\\"on-change\\\" .subName}}(on-change){{end}}{{if contains \\\"sample\\\" .subName}}(sample){{end}} {{if .address}}{{.address}}{{else}}deleted{{end}}\"",
           "queryType": "range",
           "refId": "A"
         }
@@ -421,7 +421,7 @@
           },
           "direction": "backward",
           "editorMode": "code",
-          "expr": "{job=\"gnmic-state\"} \n|= \"ipv6/slaac\" \n| json prefix=\"prefix\" \n| json bngRouter=\"source\" \n| json address=\"updates[0].values.address\" \n| regexp `.*subscriber-id=(?P<subscriber_id>[^]]+)` \n| bngRouter = \"$bngRouter\" \n| subscriber_id = \"$subscriberUser\" \n| json subName=`[\"subscription-name\"]`\n| json time = \"time\" \n| line_format \"{{.time}} {{if contains \\\"on-change\\\" .subName}}(on-change){{end}}{{if contains \\\"sample\\\" .subName}}(sample){{end}} {{if .address}}{{.address}}{{else}}deleted{{end}}\"",
+          "expr": "{job=\"gnmic-state\"} \n|= \"ipv6/slaac\" \n| json prefix=\"prefix\" \n| json bngRouter=\"source\" \n| json address=\"updates[0].values.address\" \n| regexp `.*subscriber-id=(?P<subscriber_id>[^]]+)` \n| bngRouter =~ \".*$bngRouter.*\" \n| subscriber_id = \"$subscriberUser\" \n| json subName=`[\"subscription-name\"]`\n| json time = \"time\" \n| line_format \"{{.time}} {{if contains \\\"on-change\\\" .subName}}(on-change){{end}}{{if contains \\\"sample\\\" .subName}}(sample){{end}} {{if .address}}{{.address}}{{else}}deleted{{end}}\"",
           "queryType": "range",
           "refId": "A"
         }
@@ -572,7 +572,7 @@
           },
           "direction": "backward",
           "editorMode": "code",
-          "expr": "{job=\"gnmic-state\"} \n|= \"ipv6/pd\" \n| json prefix=\"prefix\" \n| json bngRouter=\"source\" \n| json address=\"updates[0].values.prefix\" \n| json prefix=\"prefix\" \n| regexp `.*subscriber-id=(?P<subscriber_id>[^]]+)` \n| bngRouter = \"$bngRouter\" \n| subscriber_id = \"$subscriberUser\" \n| json subName=`[\"subscription-name\"]`\n| json time = \"time\" \n| line_format \"{{.time}} {{if contains \\\"on-change\\\" .subName}}(on-change){{end}}{{if contains \\\"sample\\\" .subName}}(sample){{end}} {{if .address}}{{.address}}{{else}}deleted{{end}}\"",
+          "expr": "{job=\"gnmic-state\"} \n|= \"ipv6/pd\" \n| json prefix=\"prefix\" \n| json bngRouter=\"source\" \n| json address=\"updates[0].values.prefix\" \n| json prefix=\"prefix\" \n| regexp `.*subscriber-id=(?P<subscriber_id>[^]]+)` \n| bngRouter =~ \".*$bngRouter.*\" \n| subscriber_id = \"$subscriberUser\" \n| json subName=`[\"subscription-name\"]`\n| json time = \"time\" \n| line_format \"{{.time}} {{if contains \\\"on-change\\\" .subName}}(on-change){{end}}{{if contains \\\"sample\\\" .subName}}(sample){{end}} {{if .address}}{{.address}}{{else}}deleted{{end}}\"",
           "queryType": "range",
           "refId": "A"
         }
@@ -625,7 +625,7 @@
           },
           "direction": "backward",
           "editorMode": "code",
-          "expr": "{job=\"gnmic-state\"} \n|= \"ipv6/dhcp6-lease\"  \n| json prefix=\"prefix\" \n| json bngRouter=\"source\" \n| json address=`updates[0].values[\"client-address\"]` \n| regexp `.*subscriber-id=(?P<subscriber_id>[^]]+)` \n| bngRouter = \"$bngRouter\" \n| subscriber_id = \"$subscriberUser\" \n| json time = \"time\" \n| json subName=`[\"subscription-name\"]`\n| line_format \"{{.time}} {{if contains \\\"on-change\\\" .subName}}(on-change){{end}}{{if contains \\\"sample\\\" .subName}}(sample){{end}} {{if .address}}{{.address}}{{else}}deleted{{end}}\"",
+          "expr": "{job=\"gnmic-state\"} \n|= \"ipv6/dhcp6-lease\"  \n| json prefix=\"prefix\" \n| json bngRouter=\"source\" \n| json address=`updates[0].values[\"client-address\"]` \n| regexp `.*subscriber-id=(?P<subscriber_id>[^]]+)` \n| bngRouter =~ \".*$bngRouter.*\" \n| subscriber_id = \"$subscriberUser\" \n| json time = \"time\" \n| json subName=`[\"subscription-name\"]`\n| line_format \"{{.time}} {{if contains \\\"on-change\\\" .subName}}(on-change){{end}}{{if contains \\\"sample\\\" .subName}}(sample){{end}} {{if .address}}{{.address}}{{else}}deleted{{end}}\"",
           "queryType": "range",
           "refId": "A"
         }
