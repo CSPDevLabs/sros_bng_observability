@@ -157,7 +157,8 @@ topology:
       startup-delay: 20
       group: telemetry
       restart-policy: unless-stopped
-
+      ports:
+        - 9374:9374 
     # gNMIc to collect telemetry (metrics)
     gnmic-metrics:
       kind: linux
