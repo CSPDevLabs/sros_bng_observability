@@ -3,7 +3,7 @@ username: admin
 # Credentials
 auth_cred: &auth_cred
   username: admin
-  password: admin
+  password: NokiaSros1!
   port: 57400
   timeout: 10s
   skip-verify: true

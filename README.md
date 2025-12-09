@@ -1,6 +1,8 @@
 # SROS BNG / MAG-Integrated Observability Lab
 
-# TL;DR VS Quick Start
+# Quick Start
+
+**Note:** This updated forked uses the new released container vsrsim image
 
 The goal of the lab is to spin up a full MAG‑Integrated (BNG) observability stack in less than 10 min, so let's not waste time and get started right away. Go straight to the [Quick Start](#quick-start) section 🚀 🚀 🚀 .
 Please do not forget to check the [Requirements](#requirements) section before you start, it's important!
@@ -14,7 +16,6 @@ Please do not forget to check the [Requirements](#requirements) section before y
   - [Introduction](#introduction)
     - [Overview](#overview)
     - [Authors](#authors)
-    - [Software Versions](#software-versions)
   - [Requirements](#requirements)
   - [TL;DR Observability for MAG (BNG)](#tldr-observability-for-mag-bng)
     - [Observability vs Monitoring](#observability-vs-monitoring)
@@ -57,25 +58,8 @@ Let's move step by step via the principle and pillars, since every endeavor shou
 ## Authors
 
 [Kivanc Imer](mailto:kivanc.imer@nokia.com) - IP Solution Architect
-
 [Anton Zyablov](mailto:anton.zyablov@nokia.com) - Solution Architects Lead
-
-## Software Versions
-
-| Software    | Version  |
-|-------------|----------|
-| Nokia SROS  | 24.7.R1  |
-| gnmic       | 0.39.1   |
-| bngblaster  | 0.9.17   |
-| fluent-bit  | 3.2.10   |
-| prometheus  | 2.53.4  |
-| grafana     | 11.5.2   |
-| freeradius-server | 3.2.3 |
-| syslog-ng | 4.8.1-r1-ls153 |
-| promtail |  3.4.3 |
-| loki | 3.4.2 |
-| alertmanager | 0.28.1 |
-| smokeping_prober | 0.9.0 |
+[Mau Rojas](https://www.linkedin.com/in/pinrojas/) - DevOps Ppal Consulting Eng (Updated to public container images and vrsim)
 
 
 ## Requirements
@@ -85,7 +69,7 @@ To run this clab, you need to have the following installed:
 - [Containerlab](https://containerlab.dev/getting-started/installation/)
 
 Additional licenses and API tokens:
-- *SROS* images (vr-sros should obtained from official Nokia representatives).
+- *SROS* images (sros_vrsim should be obtained from official Nokia representatives).
 - *SROS* license is required to run the *SROS* containers (should obtained from official Nokia representatives).
 - Optional: *Telegram API Token* is required to send messages to a Telegram channel [Telegram Bots Tutorial](https://core.telegram.org/bots/tutorial).
 
@@ -306,120 +290,7 @@ sudo chmod o+w lokidata
 The lab is designed to be run with `sudo` privileges:
 
 ```bash
-❯ sudo -E clab deploy
-15:23:47 INFO Containerlab started version=0.67.0
-15:23:47 INFO Parsing & checking topology file=bngt.clab.yaml
-15:23:47 INFO Pulling quay.io/prometheus/prometheus:v2.53.4 Docker image
-15:23:52 INFO Done pulling quay.io/prometheus/prometheus:v2.53.4
-15:23:52 INFO Pulling docker.io/grafana/promtail:3.4.3 Docker image
-15:23:53 INFO Done pulling docker.io/grafana/promtail:3.4.3
-15:23:53 INFO Pulling quay.io/prometheus/alertmanager:v0.28.1 Docker image
-15:23:54 INFO Done pulling quay.io/prometheus/alertmanager:v0.28.1
-15:23:54 INFO Pulling quay.io/superq/smokeping-prober:v0.9.0 Docker image
-15:23:56 INFO Done pulling quay.io/superq/smokeping-prober:v0.9.0
-15:23:56 INFO Creating lab directory path=/home/azyablov/clab/sros_bng_observability/clab-sros_bngt
-15:23:56 INFO unable to adjust Labdir file ACLs: operation not supported
-15:23:56 INFO node "tel-fb" is being delayed for 20 seconds
-15:23:56 INFO node "gnmic-metrics" is being delayed for 40 seconds
-15:23:56 INFO node "tel-am" is being delayed for 30 seconds
-15:23:56 INFO node "tel-sping" is being delayed for 20 seconds
-15:23:56 INFO node "tel-syslog" is being delayed for 10 seconds
-15:23:56 INFO node "radius" is being delayed for 10 seconds
-15:23:56 INFO node "tel-prom" is being delayed for 40 seconds
-15:23:56 INFO node "tel-loki" is being delayed for 20 seconds
-15:23:56 INFO node "tel-pt" is being delayed for 20 seconds
-15:23:56 INFO node "tel-graf" is being delayed for 60 seconds
-15:23:56 INFO node "gnmic-state" is being delayed for 30 seconds
-15:23:56 INFO Using existing config file (/home/azyablov/clab/sros_bng_observability/clab-sros_bngt/bng1/tftpboot/config.txt) instead of applying a new one
-15:23:56 INFO Using existing config file (/home/azyablov/clab/sros_bng_observability/clab-sros_bngt/bng2/tftpboot/config.txt) instead of applying a new one
-15:23:56 INFO Using existing config file (/home/azyablov/clab/sros_bng_observability/clab-sros_bngt/agg/tftpboot/config.txt) instead of applying a new one
-15:23:56 INFO Using existing config file (/home/azyablov/clab/sros_bng_observability/clab-sros_bngt/core/tftpboot/config.txt) instead of applying a new one
-15:23:56 INFO Creating container name=core
-15:23:56 INFO Creating container name=bng1
-15:23:56 INFO Creating container name=bng2
-15:23:56 INFO Creating container name=agg
-15:23:56 INFO Adding public keys configuration node=clab-sros_bngt-bng2
-15:23:56 INFO Created link: bng2:eth2 (1/1/2) ▪┄┄▪ core:eth2 (1/1/2)
-15:23:56 INFO Waiting for node to be ready. This may take a while node=clab-sros_bngt-bng2 log="docker logs -f clab-sros_bngt-bng2"
-15:23:57 INFO Created link: bng1:eth1 (1/1/1) ▪┄┄▪ agg:eth2 (1/1/2)
-15:23:57 INFO Created link: bng1:eth2 (1/1/2) ▪┄┄▪ core:eth1 (1/1/1)
-15:23:57 INFO Adding public keys configuration node=clab-sros_bngt-core
-15:23:57 INFO Waiting for node to be ready. This may take a while node=clab-sros_bngt-core log="docker logs -f clab-sros_bngt-core"
-15:23:57 INFO Created link: bng1:eth3 (1/1/3) ▪┄┄▪ bng2:eth3 (1/1/3)
-15:23:57 INFO Created link: bng2:eth1 (1/1/1) ▪┄┄▪ agg:eth3 (1/1/3)
-15:23:57 INFO Adding public keys configuration node=clab-sros_bngt-agg
-15:23:57 INFO Adding public keys configuration node=clab-sros_bngt-bng1
-15:23:57 INFO Waiting for node to be ready. This may take a while node=clab-sros_bngt-agg log="docker logs -f clab-sros_bngt-agg"
-15:23:57 INFO Waiting for node to be ready. This may take a while node=clab-sros_bngt-bng1 log="docker logs -f clab-sros_bngt-bng1"
-15:24:06 INFO Creating container name=radius
-15:24:06 INFO Creating container name=tel-syslog
-15:24:06 INFO Created link: radius:eth1 ▪┄┄▪ core:eth4 (1/1/4)
-15:24:16 INFO Creating container name=tel-sping
-15:24:16 INFO Creating container name=tel-fb
-15:24:16 INFO Creating container name=tel-pt
-15:24:16 INFO Creating container name=tel-loki
-15:24:26 INFO Creating container name=tel-am
-15:24:26 INFO Creating container name=gnmic-state
-15:24:36 INFO Creating container name=gnmic-metrics
-15:24:36 INFO Creating container name=tel-prom
-15:24:56 INFO Creating container name=tel-graf
-15:24:56 INFO node "bngblaster" is being delayed for 10 seconds
-15:25:06 INFO Creating container name=bngblaster
-15:25:06 INFO Created link: bngblaster:eth1 ▪┄┄▪ agg:eth1 (1/1/1)
-15:25:06 INFO Created link: bngblaster:eth2 ▪┄┄▪ core:eth3 (1/1/3)
-15:25:08 INFO Adding host entries path=/etc/hosts
-15:25:08 INFO Adding SSH config for nodes path=/etc/ssh/ssh_config.d/clab-sros_bngt.conf
-╭──────────────────────────────┬───────────────────────────────────────────────────────────────────┬─────────┬────────────────╮
-│             Name             │                             Kind/Image                            │  State  │ IPv4/6 Address │
-├──────────────────────────────┼───────────────────────────────────────────────────────────────────┼─────────┼────────────────┤
-│ clab-sros_bngt-agg           │ nokia_sros                                                        │ running │ 172.20.20.21   │
-│                              │ registry.srlinux.dev/pub/vr-sros:24.7.R1                          │         │ N/A            │
-├──────────────────────────────┼───────────────────────────────────────────────────────────────────┼─────────┼────────────────┤
-│ clab-sros_bngt-bng1          │ nokia_sros                                                        │ running │ 172.20.20.11   │
-│                              │ registry.srlinux.dev/pub/vr-sros:24.7.R1                          │         │ N/A            │
-├──────────────────────────────┼───────────────────────────────────────────────────────────────────┼─────────┼────────────────┤
-│ clab-sros_bngt-bng2          │ nokia_sros                                                        │ running │ 172.20.20.12   │
-│                              │ registry.srlinux.dev/pub/vr-sros:24.7.R1                          │         │ N/A            │
-├──────────────────────────────┼───────────────────────────────────────────────────────────────────┼─────────┼────────────────┤
-│ clab-sros_bngt-bngblaster    │ linux                                                             │ running │ 172.20.20.2    │
-│                              │ azyablov/bng-blaster:latest                                       │         │ N/A            │
-├──────────────────────────────┼───────────────────────────────────────────────────────────────────┼─────────┼────────────────┤
-│ clab-sros_bngt-core          │ nokia_sros                                                        │ running │ 172.20.20.22   │
-│                              │ registry.srlinux.dev/pub/vr-sros:24.7.R1                          │         │ N/A            │
-├──────────────────────────────┼───────────────────────────────────────────────────────────────────┼─────────┼────────────────┤
-│ clab-sros_bngt-gnmic-metrics │ linux                                                             │ running │ 172.20.20.42   │
-│                              │ harbor.nice.nokia.net/ghcr/openconfig/gnmic:0.39.1                │         │ N/A            │
-├──────────────────────────────┼───────────────────────────────────────────────────────────────────┼─────────┼────────────────┤
-│ clab-sros_bngt-gnmic-state   │ linux                                                             │ running │ 172.20.20.41   │
-│                              │ harbor.nice.nokia.net/ghcr/openconfig/gnmic:0.39.1                │         │ N/A            │
-├──────────────────────────────┼───────────────────────────────────────────────────────────────────┼─────────┼────────────────┤
-│ clab-sros_bngt-radius        │ linux                                                             │ running │ 172.20.20.111  │
-│                              │ harbor.nice.nokia.net/docker/freeradius/freeradius-server:3.2.3   │         │ N/A            │
-├──────────────────────────────┼───────────────────────────────────────────────────────────────────┼─────────┼────────────────┤
-│ clab-sros_bngt-tel-am        │ linux                                                             │ running │ 172.20.20.35   │
-│                              │ quay.io/prometheus/alertmanager:v0.28.1                           │         │ N/A            │
-├──────────────────────────────┼───────────────────────────────────────────────────────────────────┼─────────┼────────────────┤
-│ clab-sros_bngt-tel-fb        │ linux                                                             │ running │ 172.20.20.33   │
-│                              │ cr.fluentbit.io/fluent/fluent-bit:3.2.10                          │         │ N/A            │
-├──────────────────────────────┼───────────────────────────────────────────────────────────────────┼─────────┼────────────────┤
-│ clab-sros_bngt-tel-graf      │ linux                                                             │ running │ 172.20.20.38   │
-│                              │ grafana/grafana:11.5.2                                            │         │ N/A            │
-├──────────────────────────────┼───────────────────────────────────────────────────────────────────┼─────────┼────────────────┤
-│ clab-sros_bngt-tel-loki      │ linux                                                             │ running │ 172.20.20.34   │
-│                              │ grafana/loki:3.4.2                                                │         │ N/A            │
-├──────────────────────────────┼───────────────────────────────────────────────────────────────────┼─────────┼────────────────┤
-│ clab-sros_bngt-tel-prom      │ linux                                                             │ running │ 172.20.20.37   │
-│                              │ quay.io/prometheus/prometheus:v2.53.4                             │         │ N/A            │
-├──────────────────────────────┼───────────────────────────────────────────────────────────────────┼─────────┼────────────────┤
-│ clab-sros_bngt-tel-pt        │ linux                                                             │ running │ 172.20.20.32   │
-│                              │ grafana/promtail:3.4.3                                            │         │ N/A            │
-├──────────────────────────────┼───────────────────────────────────────────────────────────────────┼─────────┼────────────────┤
-│ clab-sros_bngt-tel-sping     │ linux                                                             │ running │ 172.20.20.36   │
-│                              │ quay.io/superq/smokeping-prober:v0.9.0                            │         │ N/A            │
-├──────────────────────────────┼───────────────────────────────────────────────────────────────────┼─────────┼────────────────┤
-│ clab-sros_bngt-tel-syslog    │ linux                                                             │ running │ 172.20.20.31   │
-│                              │ harbor.nice.nokia.net/docker/linuxserver/syslog-ng:4.8.1-r1-ls153 │         │ N/A            │
-╰──────────────────────────────┴───────────────────────────────────────────────────────────────────┴─────────┴────────────────╯
+sudo -E clab deploy
 ```
 
 ![bng_topology](pic/bngt.clab.png)

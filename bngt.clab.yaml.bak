@@ -8,34 +8,34 @@ topology:
   nodes:
     # SROS NEs
     agg:
-      kind: nokia_srsim
-      image: registry.srlinux.dev/pub/nokia_srsim:25.10.R1
+      kind: nokia_sros
+      image: registry.srlinux.dev/pub/vr-sros:24.7.R1
       type: sr-1
-      license: srsim-lic-25.txt
+      license: license.txt
       startup-config: configs/ne/agg.txt
       mgmt-ipv4: 172.21.20.21
-      group: ne   
+      group: ne
     bng1:
-      kind: nokia_srsim
-      image: registry.srlinux.dev/pub/nokia_srsim:25.10.R1
+      kind: nokia_sros
+      image: registry.srlinux.dev/pub/vr-sros:24.7.R1
       type: sr-1s
-      license: srsim-lic-25.txt
+      license: license.txt
       mgmt-ipv4: 172.21.20.11
       startup-config: configs/ne/bng1.txt 
       group: ne     
     bng2:
-      kind: nokia_srsim
-      image: registry.srlinux.dev/pub/nokia_srsim:25.10.R1
+      kind: nokia_sros
+      image: registry.srlinux.dev/pub/vr-sros:24.7.R1
       type: sr-1s
-      license: srsim-lic-25.txt
+      license: license.txt
       mgmt-ipv4: 172.21.20.12
       startup-config: configs/ne/bng2.txt
       group: ne
     core:
-      kind: nokia_srsim
-      image: registry.srlinux.dev/pub/nokia_srsim:25.10.R1
+      kind: nokia_sros
+      image: registry.srlinux.dev/pub/vr-sros:24.7.R1
       type: sr-1s
-      license: srsim-lic-25.txt
+      license: license.txt
       mgmt-ipv4: 172.21.20.22
       startup-config: configs/ne/core.txt
       group: ne
@@ -157,8 +157,7 @@ topology:
       startup-delay: 20
       group: telemetry
       restart-policy: unless-stopped
-      ports:
-        - 9374:9374 
+
     # gNMIc to collect telemetry (metrics)
     gnmic-metrics:
       kind: linux
@@ -209,12 +208,12 @@ topology:
         - 3000:3000
 
   links:
-    - endpoints: ["bngblaster:eth1", "agg:1/1/c1/1"]
-    - endpoints: ["bng1:1/1/c1/1", "agg:1/1/c2/1"]
-    - endpoints: ["bng2:1/1/c1/1", "agg:1/1/c3/1"]
-    - endpoints: ["bng1:1/1/c2/1", "core:1/1/c1/1"]
-    - endpoints: ["bng2:1/1/c2/1", "core:1/1/c2/1"]
-    - endpoints: ["bng1:1/1/c3/1", "bng2:1/1/c3/1"]
-    - endpoints: ["bngblaster:eth2", "core:1/1/c3/1"]
-    - endpoints: ["radius:eth1", "core:1/1/c4/1"]
+    - endpoints: ["bngblaster:eth1", "agg:1/1/1"]
+    - endpoints: ["bng1:1/1/1", "agg:1/1/2"]
+    - endpoints: ["bng2:1/1/1", "agg:1/1/3"]
+    - endpoints: ["bng1:1/1/2", "core:1/1/1"]
+    - endpoints: ["bng2:1/1/2", "core:1/1/2"]
+    - endpoints: ["bng1:1/1/3", "bng2:1/1/3"]
+    - endpoints: ["bngblaster:eth2", "core:1/1/3"]
+    - endpoints: ["radius:eth1", "core:1/1/4"]
 

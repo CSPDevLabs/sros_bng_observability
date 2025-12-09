@@ -1,17 +1,17 @@
-# TiMOS-B-24.7.R1 both/x86_64 Nokia 7750 SR Copyright (c) 2000-2024 Nokia.
+# TiMOS-B-25.10.R1 both/x86_64 Nokia 7750 SR Copyright (c) 2000-2025 Nokia.
 # All rights reserved. All use subject to applicable license agreements.
-# Built on Thu Jul 11 15:05:03 PDT 2024 by builder in /builds/247B/R1/panos/main/sros
-# Configuration format version 24.7 revision 0
+# Built on Thu Oct 30 21:18:22 UTC 2025 by builder in /builds/2510B/R1/panos
+# Configuration format version 25.10 revision 0
 
-# Generated 2025-04-07T21:49:09.8Z by admin from 172.31.255.29
-# Commit ID 2
-#   Committed 2025-04-07T21:48:39.8Z by admin (MD-CLI) from 172.31.255.29
+# Generated 2025-11-11T19:22:36.5Z by admin from 172.21.20.1
+# Commit ID 6
+#   Committed 2025-11-11T19:21:47.9Z by admin (MD-CLI) from 172.21.20.1
 
 configure {
     card 1 {
         card-type iom-1
         mda 1 {
-            mda-type me12-100gb-qsfp28
+            mda-type me6-100gb-qsfp28
         }
     }
     log {
@@ -61,7 +61,7 @@ configure {
             }
         }
         syslog "promtail" {
-            address 172.20.20.31
+            address 172.21.20.31
             facility local7
             severity info
             port 1514
@@ -263,6 +263,27 @@ configure {
         grpc {
             admin-state enable
             allow-unsecure-connection
+            gnmi {
+                admin-state enable
+                auto-config-save true
+            }
+            gnoi {
+                cert-mgmt {
+                    admin-state enable
+                }
+                file {
+                    admin-state enable
+                }
+                system {
+                    admin-state enable
+                }
+            }
+            md-cli {
+                admin-state enable
+            }
+            rib-api {
+                admin-state enable
+            }
         }
         management-interface {
             cli {
@@ -271,13 +292,26 @@ configure {
                 }
             }
             netconf {
+                auto-config-save true
                 listen {
+                    admin-state enable
+                }
+            }
+            snmp {
+                packet-size 9216
+                streaming {
                     admin-state enable
                 }
             }
         }
         bluetooth {
             advertising-timeout 30
+        }
+        login-control {
+            login-banner true
+            pre-login-message {
+                message "................................................................\n:                  Welcome to Nokia SR-OS!                     :\n:                                                              :\n:                                                              :\n: YANG:          https://yang.labctl.net/                      :\n: Community:     https://containerlab.dev/community/           :\n: Discord:       https://containerlab.dev/discord/             :\n................................................................\n"
+            }
         }
         security {
             aaa {
@@ -300,6 +334,10 @@ configure {
                             match "tools dump security"
                             action permit
                         }
+                        entry 42 {
+                            match "tools dump system security"
+                            action permit
+                        }
                         entry 50 {
                             match "admin system security"
                             action permit
@@ -319,6 +357,39 @@ configure {
                         entry 112 {
                             match "tools dump li"
                             action deny
+                        }
+                        entry 113 {
+                            match "tools perform system security"
+                            action permit
+                        }
+                        grpc {
+                            rpc-authorization {
+                                gnmi-capabilities permit
+                                gnmi-get permit
+                                gnmi-set permit
+                                gnmi-subscribe permit
+                                gnoi-cert-mgmt-rotate permit
+                                gnoi-cert-mgmt-install permit
+                                gnoi-cert-mgmt-getcert permit
+                                gnoi-cert-mgmt-revoke permit
+                                gnoi-cert-mgmt-cangenerate permit
+                                gnoi-file-get permit
+                                gnoi-file-transfertoremote permit
+                                gnoi-file-put permit
+                                gnoi-file-stat permit
+                                gnoi-file-remove permit
+                                gnoi-system-ping permit
+                                gnoi-system-traceroute permit
+                                gnoi-system-time permit
+                                gnoi-system-setpackage permit
+                                gnoi-system-switchcontrolprocessor permit
+                                gnoi-system-reboot permit
+                                gnoi-system-rebootstatus permit
+                                gnoi-system-cancelreboot permit
+                                md-cli-session permit
+                                rib-api-getversion permit
+                                rib-api-modify permit
+                            }
                         }
                         netconf {
                             base-op-authorization {
@@ -403,6 +474,12 @@ configure {
                             action deny
                         }
                     }
+                }
+            }
+            snmp {
+                community "76HzdddhlPpRo1Vql+ZB5spLqccgYQ== hash2" {
+                    access-permissions r
+                    version v2c
                 }
             }
             ssh {
@@ -499,7 +576,7 @@ configure {
                 }
                 local-user {
                     user "admin" {
-                        password "$2y$10$TQrZlpBDra86.qoexZUzQeBXDY1FcdDhGWdD9lLxMuFyPVSm0OGy6"
+                        password "$2y$10$o54xOZeJIbKM/dcTuXY7M.9qdWTkB8zGy7Q.lPJ/7mrRMuUWOqZJG"
                         restricted-to-home false
                         access {
                             console true
@@ -540,4 +617,4 @@ persistent-indices {
     }
 }
 
-# Finished 2025-04-07T21:49:09.8Z
+# Finished 2025-11-11T19:22:36.5Z
