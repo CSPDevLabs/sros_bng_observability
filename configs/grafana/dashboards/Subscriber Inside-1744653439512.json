@@ -141,7 +141,7 @@
               "options": {
                 "mode": "exclude",
                 "names": [
-                  "{__name__=\"state_subscriber_mgmt_statistics_total_hosts_peak_value\", instance=\"host.docker.internal:9274\", job=\"sros_bngt_gnmic\", source=\"clab-sros_bngt-bng1\", subscription_name=\"sros-sub-mgmt-statistics\", total_hosts_counter=\"ipv4\"}"
+                  "{__name__=\"state_subscriber_mgmt_statistics_total_hosts_peak_value\", instance=\"host.docker.internal:9274\", job=\"sros_bngt_gnmic\", source=\"clab-sros-bngt-bng1\", subscription_name=\"sros-sub-mgmt-statistics\", total_hosts_counter=\"ipv4\"}"
                 ],
                 "prefix": "All except:",
                 "readOnly": true
@@ -650,13 +650,13 @@
           "type": "prometheus",
           "uid": "DS_PROMETHEUS"
         },
-        "definition": "label_values({source=~\"clab-sros_bngt-bng1|clab-sros_bngt-bng2\"},subscriber_subscriber_id)",
+        "definition": "label_values({source=~\"clab-sros-bngt-bng1|clab-sros-bngt-bng2\"},subscriber_subscriber_id)",
         "label": "Subscriber ID",
         "name": "subscriberUser",
         "options": [],
         "query": {
           "qryType": 1,
-          "query": "label_values({source=~\"clab-sros_bngt-bng1|clab-sros_bngt-bng2\"},subscriber_subscriber_id)",
+          "query": "label_values({source=~\"clab-sros-bngt-bng1|clab-sros-bngt-bng2\"},subscriber_subscriber_id)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
@@ -665,14 +665,14 @@
       },
       {
         "current": {
-          "text": "clab-sros_bngt-bng1",
-          "value": "clab-sros_bngt-bng1"
+          "text": "clab-sros-bngt-bng1",
+          "value": "clab-sros-bngt-bng1"
         },
         "datasource": {
           "type": "prometheus",
           "uid": "DS_PROMETHEUS"
         },
-        "definition": "label_values({source=~\"clab-sros_bngt-bng1|clab-sros_bngt-bng2\"},source)",
+        "definition": "label_values({source=~\"clab-sros-bngt-bng1|clab-sros-bngt-bng2\"},source)",
         "description": "",
         "hide": 1,
         "label": "BNG",
@@ -680,7 +680,7 @@
         "options": [],
         "query": {
           "qryType": 1,
-          "query": "label_values({source=~\"clab-sros_bngt-bng1|clab-sros_bngt-bng2\"},source)",
+          "query": "label_values({source=~\"clab-sros-bngt-bng1|clab-sros-bngt-bng2\"},source)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
