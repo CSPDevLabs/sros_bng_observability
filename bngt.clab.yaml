@@ -1,4 +1,4 @@
-name: sros_bngt
+name: sros-bngt
 
 mgmt:
   network: bngt
